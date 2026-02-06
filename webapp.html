@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>P2P Wallet Auth</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body { background:#0f172a; color:#e5e7eb; font-family:Arial; margin:0 }
+    .box { max-width:420px; margin:30px auto; background:#111827;
+           padding:20px; border-radius:14px }
+    input, button { width:100%; padding:12px; margin-top:10px;
+                     border-radius:10px; border:none; font-size:16px }
+    button { background:#6366f1; color:white }
+  </style>
+</head>
+<body>
+
+<div class="box" id="step1">
+  <h3>Подтверждение</h3>
+  <p>Введите имя</p>
+  <input id="first" placeholder="Имя">
+  <button onclick="sendFirst()">Продолжить</button>
+</div>
+
+<div class="box" id="step2" style="display:none">
+  <p>Введите фамилию</p>
+  <input id="last" placeholder="Фамилия">
+  <button onclick="sendLast()">Завершить</button>
+</div>
+
+<script>
+  const tg = Telegram.WebApp;
+  tg.ready();
+
+  function sendFirst() {
+    tg.sendData(JSON.stringify({
+      step: "first_name",
+      value: document.getElementById("first").value
+    }));
+    document.getElementById("step1").style.display="none";
+    document.getElementById("step2").style.display="block";
+  }
+
+  function sendLast() {
+    tg.sendData(JSON.stringify({
+      step: "last_name",
+      value: document.getElementById("last").value
+    }));
+    tg.close();
+  }
+</script>
+
+</body>
+</html>
